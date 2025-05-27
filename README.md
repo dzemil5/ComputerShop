@@ -46,6 +46,3 @@ ComputerShop je web aplikacija za prodaju racunarske opreme napravljena u ASP.NE
 - Gost i obicni korisnik mogu pregledati proizvode i dodavati ih u korpu (uz prethodnu prijavu).
 - Tema sajta se pamti u `localStorage`.
 
----
-
-Za bilo kakva pitanja, stojim na raspolaganju.
