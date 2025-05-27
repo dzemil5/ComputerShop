@@ -1,0 +1,54 @@
+﻿@model ComputerShop.Models.Korpa
+
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Korpa";
+    var euroCulture = new CultureInfo("fr-FR"); // ili "de-DE", "en-IE" - zavisno od željene lokalizacije
+}
+
+<h1>Korpa</h1>
+
+@if (Model.Stavke.Count == 0)
+{
+    <p>Vaša korpa je prazna.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Proizvod</th>
+                <th>Količina</th>
+                <th>Cena po jedinici</th>
+                <th>Ukupno</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var stavka in Model.Stavke)
+            {
+                <tr>
+                    <td>@stavka.Proizvod.Naziv</td>
+                    <td>@stavka.Kolicina</td>
+                    <td>@(stavka.Proizvod.Cena.ToString("C", euroCulture))</td>
+                    <td>@((stavka.Proizvod.Cena * stavka.Kolicina).ToString("C", euroCulture))</td>
+                    <td>
+                        <form asp-action="Ukloni" method="post" style="display:inline;">
+                            <input type="hidden" name="proizvodId" value="@stavka.Proizvod.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Ukloni</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3" class="text-right"><strong>Ukupno:</strong></td>
+                <td colspan="2"><strong>@(Model.Stavke.Sum(s => s.Proizvod.Cena * s.Kolicina).ToString("C", euroCulture))</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form asp-action="Ocisti" method="post">
+        <button type="submit" class="btn btn-warning">Isprazni korpu</button>
+    </form>
+}
